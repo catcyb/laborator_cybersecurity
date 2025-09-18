@@ -1,1 +1,1 @@
-Această aplicație a fost făcută pentru laboratorul de cybersecurity al Universității Ovidius. 
+Aceasta aplicatie este folosita pentru lecțiile de devsecops
