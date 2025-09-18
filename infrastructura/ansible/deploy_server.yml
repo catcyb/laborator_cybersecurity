@@ -48,7 +48,7 @@
 
     - name: "fă virtual host pentru apache"
       ansible.builtin.template:
-        dest: "/etc/apache2/sites-avalable/laborator_{{ nume_student }}.conf"
+        dest: "/etc/apache2/sites-available/laborator_{{ nume_student }}.conf"
         src: |
           <VirtualHost *:80>
               ServerAdmin webmaster@{{ nume_server }}
