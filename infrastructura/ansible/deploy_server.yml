@@ -80,6 +80,8 @@
       ansible.builtin.file:
       state: absent
       path: /etc/apache2/sites-enabled/000-default.conf
+      notify: Restart Apache
+      
 
   handlers:
     - name: Restart Apache
