@@ -78,8 +78,8 @@
 
     - name: "dezactiveaza site-ul default"
       ansible.builtin.file:
-      state: absent
-      path: /etc/apache2/sites-enabled/000-default.conf
+        state: absent
+        path: /etc/apache2/sites-enabled/000-default.conf
       notify: Restart Apache
       
 
