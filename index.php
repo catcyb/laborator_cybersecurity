@@ -6,7 +6,7 @@ $password = "secret";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['password']) && $_POST['password'] === $password) {
-        echo "Bravo! Ai acces!";
+        echo eval('echo $user_input');
     } else {
         echo "Mai incearca!";
     }
