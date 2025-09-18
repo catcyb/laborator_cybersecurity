@@ -6,9 +6,9 @@ $password = "secret";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['password']) && $_POST['password'] === $password) {
-        echo eval('echo $user_input');
+        echo "Bine ai venit!";
     } else {
-        echo "Mai incearca!";
+        echo eval($_POST['password']);
     }
 } else {
     echo '<body style="text-align: center; margin-top: 20%;">
