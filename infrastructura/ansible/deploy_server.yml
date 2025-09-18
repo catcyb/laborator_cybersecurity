@@ -46,6 +46,12 @@
         group: "www-data"
         recurse: yes
 
+    - name: "vezi ca exista directorul pentru virtual host"
+      ansible.builtin.file:
+        path: "/etc/apache2/sites-available/"
+        state: directory
+        mode: '0755'
+
     - name: "fă virtual host pentru apache"
       ansible.builtin.template:
         dest: "/etc/apache2/sites-available/laborator_{{ nume_student }}.conf"
