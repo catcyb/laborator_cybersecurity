@@ -53,9 +53,9 @@
         mode: '0755'
 
     - name: "fă virtual host pentru apache"
-      ansible.builtin.template:
+      ansible.builtin.copy:
         dest: "/etc/apache2/sites-available/laborator_{{ nume_student }}.conf"
-        src: |
+        content: |
           <VirtualHost *:80>
               ServerAdmin webmaster@{{ nume_server }}
               ServerName {{ nume_server }}
