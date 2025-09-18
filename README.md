@@ -1,0 +1,1 @@
+Această aplicație a fost făcută pentru laboratorul de cybersecurity al Universității Ovidius. 
