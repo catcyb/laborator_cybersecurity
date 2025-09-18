@@ -65,6 +65,12 @@ resource "google_compute_instance" "webserver" {
     source      = google_compute_disk.webserver.self_link
   }
 
+  shielded_instance_config {
+    enable_secure_boot = true
+    enable_integrity_monitoring = true
+    enable_vtpm = true
+  }
+
   network_interface {
     network = google_compute_network.webserver.name
     access_config {
