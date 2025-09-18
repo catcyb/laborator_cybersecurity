@@ -1,28 +1,77 @@
 ---
-- name: Install and configure Apache web server
+- name: Instalează și configurează aplicația de laborator 
   hosts: localhost
   connection: local
   become: yes
 
   vars:
-    apache_package_name: "apache2"
-    apache_service_name: "apache2"
+    nume_student: "catalin_moisei"
+    locatie_cod: "/var/www/laborator_{{ nume_student }}"
+    nume_server: "laborator.local"
+    git_repo_url: "https://github.com/catcyb/laborator_cybersecurity.git"
 
   tasks:
-    - name: "Update package cache (for Debian/Ubuntu)"
+    - name: "Update package cache "
       ansible.builtin.apt:
         update_cache: yes
         cache_valid_time: 3600
       when: ansible_os_family == "Debian"
-      ignore_errors: yes # In case apt is not available
+      ignore_errors: yes 
 
-    - name: "Install Apache package"
+    - name: "instalează apache și git"
       ansible.builtin.package:
-        name: "{{ apache_package_name }}"
+        name: "apache2"
         state: present
 
-    - name: "Start and enable Apache service"
+    - name: "pornește serviciul apache și setează-l să pornească la boot"
       ansible.builtin.service:
-        name: "{{ apache_service_name }}"
+        name: "apache2"
         state: started
         enabled: yes
+
+    - name: "ia codul de pe git"
+      ansible.builtin.git:
+        repo: "{{ git_repo_url }}"
+        dest: "{{ locatie_cod }}"
+        clone: yes
+        update: yes # dacă este rulat de mai multe ori, nu face decât să ia versiunea nouă
+        force: yes # forțează actualizarea dacă există modificări locale
+        version: "main"
+
+    - name: "permisiuni pentru cod"
+      ansible.builtin.file:
+        path: "{{ locatie_cod }}"
+        state: directory
+        owner: "www-data"
+        group: "www-data"
+        recurse: yes
+
+    - name: "fă virtual host pentru apache"
+      ansible.builtin.template:
+        dest: "/etc/apache2/sites-avalable/laborator_{{ nume_student }}.conf"
+        src: |
+          <VirtualHost *:80>
+              ServerAdmin webmaster@{{ nume_server }}
+              ServerName {{ nume_server }}
+              DocumentRoot {{ locatie_cod }}
+              ErrorLog ${APACHE_LOG_DIR}/error.log
+              CustomLog ${APACHE_LOG_DIR}/access.log combined
+              <Directory {{ locatie_cod }}>
+                  AllowOverride All
+                  Require all granted
+              </Directory>
+          </VirtualHost>
+      notify: Restart Apache
+
+    - name: "activeaza noul site"
+      ansible.builtin.command:
+        cmd: "a2ensite laborator_{{ nume_student }}.conf"
+      when: ansible_os_family == "Debian"
+      notify: Restart Apache
+      changed_when: true 
+
+  handlers:
+    - name: Restart Apache
+      ansible.builtin.service:
+        name: "apache2"
+        state: restarted
