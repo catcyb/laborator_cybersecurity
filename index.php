@@ -1,6 +1,6 @@
 <?php
-// Register the Composer autoloader...
-require __DIR__.'/vendor/autoload.php';
+// asa se include autoload.php daca folosim composer
+//require __DIR__.'/vendor/autoload.php';
 
 $password = "secret";
 
