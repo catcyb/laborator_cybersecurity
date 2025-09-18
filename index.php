@@ -6,14 +6,18 @@ $password = "secret";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['password']) && $_POST['password'] === $password) {
-        echo "parola corecta";
+        echo "Bravo! Ai acces!";
     } else {
-        echo "parola incorecta";
+        echo "Mai incearca!";
     }
 } else {
-    echo '<form method="POST">
-            Password: <input type="password" name="password">
-            <input type="submit" value="Submit">
-          </form>';
+    echo '<body style="text-align: center; margin-top: 20%;">
+            <h1> Bun venit la aplicația mea de ... </h1>
+            <form method="POST" style="display: inline-block; text-align: left;">
+                Parola: <input type="password" name="password">
+                <input type="submit" value="Trimite">
+            </form>
+          </body>  
+            ';
 }
 ?>
